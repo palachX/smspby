@@ -6,6 +6,9 @@ namespace Vetheslav\SmspBy\Model;
 
 final class ApiError
 {
+    /**
+     * Creates a structured API error instance.
+     */
     public function __construct(
         private readonly ?int $code,
         private readonly string $description,
@@ -16,6 +19,9 @@ final class ApiError
         }
     }
 
+    /**
+     * Normalizes the API error payload into a structured ApiError instance.
+     */
     public static function fromMixed(mixed $error): ?self
     {
         if ($error === null) {
@@ -43,16 +49,25 @@ final class ApiError
         return new self(null, (string) $error, ['description' => (string) $error]);
     }
 
+    /**
+     * Returns the numeric error code, if provided by the API.
+     */
     public function code(): ?int
     {
         return $this->code;
     }
 
+    /**
+     * Returns the error description from the API.
+     */
     public function description(): string
     {
         return $this->description;
     }
 
+    /**
+     * Returns the raw error payload as received from the API.
+     */
     public function raw(): array
     {
         return $this->raw;

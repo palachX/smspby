@@ -9,6 +9,7 @@ use Vetheslav\SmspBy\Model\ApiError;
 final class SmsBulkSendResponse extends AbstractResponse
 {
     /**
+     * Creates a bulk SMS send response wrapper.
      * @param SmsSendResponse[] $messages
      */
     public function __construct(
@@ -20,6 +21,9 @@ final class SmsBulkSendResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a bulk SMS send response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -37,6 +41,9 @@ final class SmsBulkSendResponse extends AbstractResponse
         return new self($success, $error, $data, $messages);
     }
 
+    /**
+     * Returns the list of send results for each SMS as SmsSendResponse items.
+     */
     public function messages(): array
     {
         return $this->messages;

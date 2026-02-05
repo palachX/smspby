@@ -8,6 +8,9 @@ use Vetheslav\SmspBy\Model\ApiError;
 
 final class TemplateCreateResponse extends AbstractResponse
 {
+    /**
+     * Creates a template creation response wrapper.
+     */
     public function __construct(
         bool $success,
         ?ApiError $error,
@@ -17,6 +20,9 @@ final class TemplateCreateResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a template creation response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -30,6 +36,9 @@ final class TemplateCreateResponse extends AbstractResponse
         );
     }
 
+    /**
+     * Returns the template ID assigned by the platform.
+     */
     public function templateId(): ?int
     {
         return $this->templateId;

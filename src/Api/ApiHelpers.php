@@ -7,6 +7,7 @@ namespace Vetheslav\SmspBy\Api;
 final class ApiHelpers
 {
     /**
+     * Validates that a batch list is non-empty and does not exceed the API limit.
      * @param array<int, mixed> $items
      */
     public static function assertBatchSize(array $items, int $limit = 500): void
@@ -20,6 +21,7 @@ final class ApiHelpers
     }
 
     /**
+     * Validates and joins a list of IDs into a comma-separated string for API requests.
      * @param array<int, string|int> $ids
      */
     public static function joinIds(array $ids): string
@@ -43,6 +45,7 @@ final class ApiHelpers
     }
 
     /**
+     * Validates and JSON-encodes a messages list for bulk API requests.
      * @param array<int, array<string, mixed>> $messages
      */
     public static function encodeMessages(array $messages): string

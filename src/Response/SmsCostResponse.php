@@ -8,6 +8,9 @@ use Vetheslav\SmspBy\Model\ApiError;
 
 final class SmsCostResponse extends AbstractResponse
 {
+    /**
+     * Creates an SMS cost response wrapper.
+     */
     public function __construct(
         bool $success,
         ?ApiError $error,
@@ -19,6 +22,9 @@ final class SmsCostResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds an SMS cost response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -34,16 +40,25 @@ final class SmsCostResponse extends AbstractResponse
         );
     }
 
+    /**
+     * Returns the price per SMS part for the cost calculation.
+     */
     public function pricePerPart(): ?float
     {
         return $this->pricePerPart;
     }
 
+    /**
+     * Returns the number of SMS parts for the cost calculation.
+     */
     public function parts(): ?int
     {
         return $this->parts;
     }
 
+    /**
+     * Returns the total cost for the SMS cost calculation.
+     */
     public function amount(): ?float
     {
         return $this->amount;

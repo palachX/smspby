@@ -8,6 +8,9 @@ use Vetheslav\SmspBy\Model\ApiError;
 
 final class SimpleResponse extends AbstractResponse
 {
+    /**
+     * Builds a simple response wrapper from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;

@@ -8,6 +8,9 @@ use Vetheslav\SmspBy\Model\ApiError;
 
 final class ViberCostResponse extends AbstractResponse
 {
+    /**
+     * Creates a Viber cost response wrapper.
+     */
     public function __construct(
         bool $success,
         ?ApiError $error,
@@ -17,6 +20,9 @@ final class ViberCostResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a Viber cost response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -30,6 +36,9 @@ final class ViberCostResponse extends AbstractResponse
         );
     }
 
+    /**
+     * Returns the cost of the Viber message for the cost calculation.
+     */
     public function price(): ?float
     {
         return $this->price;

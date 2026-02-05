@@ -6,6 +6,9 @@ namespace Vetheslav\SmspBy\ValueObject;
 
 final class ViberCostMessage
 {
+    /**
+     * Creates a typed Viber cost request with validation.
+     */
     public function __construct(
         private readonly string $msisdn,
         private readonly ViberMessageType $type,
@@ -15,6 +18,9 @@ final class ViberCostMessage
         }
     }
 
+    /**
+     * Builds the payload for cost/viber and costBulk/viber.
+     */
     public function toArray(): array
     {
         return [

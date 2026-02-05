@@ -6,6 +6,9 @@ namespace Vetheslav\SmspBy\Config;
 
 final class Credentials
 {
+    /**
+     * Creates credentials for API authentication.
+     */
     public function __construct(
         private readonly string $user,
         private readonly string $apiKey,
@@ -15,11 +18,17 @@ final class Credentials
         }
     }
 
+    /**
+     * Returns the configured API user (login/MSISDN).
+     */
     public function user(): string
     {
         return $this->user;
     }
 
+    /**
+     * Returns the configured API key.
+     */
     public function apiKey(): string
     {
         return $this->apiKey;

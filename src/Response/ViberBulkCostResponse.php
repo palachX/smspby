@@ -10,6 +10,7 @@ use Vetheslav\SmspBy\ValueObject\ViberCostItem;
 final class ViberBulkCostResponse extends AbstractResponse
 {
     /**
+     * Creates a bulk Viber cost response wrapper.
      * @param ViberCostItem[] $messages
      */
     public function __construct(
@@ -21,6 +22,9 @@ final class ViberBulkCostResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a bulk Viber cost response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -41,6 +45,7 @@ final class ViberBulkCostResponse extends AbstractResponse
     }
 
     /**
+     * Returns the list of cost calculation items for each Viber message.
      * @return ViberCostItem[]
      */
     public function messages(): array

@@ -16,10 +16,16 @@ use Vetheslav\SmspBy\ValueObject\ViberMessage;
 
 final class ViberApi
 {
+    /**
+     * Creates a Viber API wrapper using the shared request sender.
+     */
     public function __construct(private readonly RequestSender $sender)
     {
     }
 
+    /**
+     * Sends a single Viber message and returns the delivery metadata.
+     */
     public function send(ViberMessage $message): ViberSendResponse
     {
         $data = $this->sender->post('send/viber', $message->toArray());
@@ -28,6 +34,7 @@ final class ViberApi
     }
 
     /**
+     * Sends up to 500 Viber messages in one request.
      * @param ViberMessage[] $messages
      */
     public function sendBulk(array $messages): ViberBulkSendResponse
@@ -47,6 +54,9 @@ final class ViberApi
         return ViberBulkSendResponse::fromArray($data);
     }
 
+    /**
+     * Calculates the cost of a single Viber message without sending it.
+     */
     public function cost(ViberCostMessage $message): ViberCostResponse
     {
         $data = $this->sender->post('cost/viber', $message->toArray());
@@ -55,6 +65,7 @@ final class ViberApi
     }
 
     /**
+     * Calculates costs for up to 500 Viber messages without sending them.
      * @param ViberCostMessage[] $messages
      */
     public function costBulk(array $messages): ViberBulkCostResponse
@@ -74,6 +85,9 @@ final class ViberApi
         return ViberBulkCostResponse::fromArray($data);
     }
 
+    /**
+     * Retrieves Viber delivery status by platform message ID.
+     */
     public function statusById(int|string $messageId): StatusResponse
     {
         $data = $this->sender->post('status/viber', [
@@ -84,6 +98,7 @@ final class ViberApi
     }
 
     /**
+     * Retrieves Viber delivery statuses for up to 500 platform message IDs.
      * @param array<int, int|string> $messageIds
      */
     public function statusBulkById(array $messageIds): StatusBulkResponse
@@ -95,6 +110,9 @@ final class ViberApi
         return StatusBulkResponse::fromViberArray($data);
     }
 
+    /**
+     * Retrieves Viber delivery status by custom_id.
+     */
     public function statusByCustomId(string $customId): StatusResponse
     {
         $this->assertCustomId($customId);
@@ -107,6 +125,7 @@ final class ViberApi
     }
 
     /**
+     * Retrieves Viber delivery statuses for up to 500 custom_id values.
      * @param string[] $customIds
      */
     public function statusBulkByCustomId(array $customIds): StatusBulkResponse

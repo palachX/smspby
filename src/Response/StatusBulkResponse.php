@@ -12,6 +12,7 @@ use Vetheslav\SmspBy\ValueObject\MessageChannel;
 final class StatusBulkResponse extends AbstractResponse
 {
     /**
+     * Creates a bulk status response wrapper.
      * @param StatusItem[] $items
      */
     public function __construct(
@@ -23,16 +24,25 @@ final class StatusBulkResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a bulk status response from an API payload using SMS status mapping by default.
+     */
     public static function fromArray(array $data): self
     {
         return self::fromSmsArray($data);
     }
 
+    /**
+     * Builds a bulk status response interpreting status codes as SMS statuses.
+     */
     public static function fromSmsArray(array $data): self
     {
         return self::fromArrayForChannel($data, MessageChannel::Sms);
     }
 
+    /**
+     * Builds a bulk status response interpreting status codes as Viber statuses.
+     */
     public static function fromViberArray(array $data): self
     {
         return self::fromArrayForChannel($data, MessageChannel::Viber);
@@ -75,6 +85,7 @@ final class StatusBulkResponse extends AbstractResponse
     }
 
     /**
+     * Returns the list of parsed status entries.
      * @return StatusItem[]
      */
     public function items(): array

@@ -6,6 +6,9 @@ namespace Vetheslav\SmspBy\ValueObject;
 
 final class SmsMessage
 {
+    /**
+     * Creates a typed SMS message request with validation.
+     */
     public function __construct(
         private readonly string $msisdn,
         private readonly string $text,
@@ -28,6 +31,9 @@ final class SmsMessage
         }
     }
 
+    /**
+     * Builds the payload for the send/sms endpoint, including optional fields.
+     */
     public function toSendArray(): array
     {
         $data = [
@@ -54,6 +60,9 @@ final class SmsMessage
         return $data;
     }
 
+    /**
+     * Builds a single item payload for sendBulk/sms (shortlinks not supported).
+     */
     public function toBulkArray(): array
     {
         if ($this->useShortLinks) {

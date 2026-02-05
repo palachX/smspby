@@ -29,9 +29,8 @@ use Vetheslav\SmspBy\Config\Credentials;
 use Vetheslav\SmspBy\SmspByClient;
 use Vetheslav\SmspBy\ValueObject\SmsMessage;
 
-$httpClient = HttpClient::create();
 $credentials = new Credentials('user-msisdn', 'api-key');
-$client = new SmspByClient($httpClient, $credentials);
+$client = SmspByClient::createDefault($credentials);
 
 $response = $client->sms()->send(new SmsMessage(
     msisdn: '375291234567',

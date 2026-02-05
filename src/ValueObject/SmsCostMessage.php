@@ -6,6 +6,9 @@ namespace Vetheslav\SmspBy\ValueObject;
 
 final class SmsCostMessage
 {
+    /**
+     * Creates a typed SMS cost request with validation.
+     */
     public function __construct(
         private readonly string $msisdn,
         private readonly string $text,
@@ -18,6 +21,9 @@ final class SmsCostMessage
         }
     }
 
+    /**
+     * Builds the payload for cost/sms and costBulk/sms.
+     */
     public function toArray(): array
     {
         return [

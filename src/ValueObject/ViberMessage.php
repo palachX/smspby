@@ -6,6 +6,9 @@ namespace Vetheslav\SmspBy\ValueObject;
 
 final class ViberMessage
 {
+    /**
+     * Creates a typed Viber message request with validation.
+     */
     public function __construct(
         private readonly string $msisdn,
         private readonly string $text,
@@ -76,6 +79,9 @@ final class ViberMessage
         }
     }
 
+    /**
+     * Builds the payload for send/viber or sendBulk/viber, applying composition rules.
+     */
     public function toArray(): array
     {
         $data = [

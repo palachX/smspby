@@ -16,6 +16,9 @@ final class RequestSender
 {
     private readonly LoggerInterface $logger;
 
+    /**
+     * Creates the low-level API transport with credentials and base URL.
+     */
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly Credentials $credentials,
@@ -26,6 +29,7 @@ final class RequestSender
     }
 
     /**
+     * Performs an authenticated POST request and returns the decoded JSON response.
      * @return array<string, mixed>
      */
     public function post(string $path, array $params): array
@@ -34,6 +38,7 @@ final class RequestSender
     }
 
     /**
+     * Performs an authenticated GET request and returns the decoded JSON response.
      * @return array<string, mixed>
      */
     public function get(string $path, array $params): array

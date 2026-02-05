@@ -10,6 +10,7 @@ use Vetheslav\SmspBy\ValueObject\ViberBulkSendItem;
 final class ViberBulkSendResponse extends AbstractResponse
 {
     /**
+     * Creates a bulk Viber send response wrapper.
      * @param ViberBulkSendItem[] $messages
      */
     public function __construct(
@@ -21,6 +22,9 @@ final class ViberBulkSendResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a bulk Viber send response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -42,6 +46,7 @@ final class ViberBulkSendResponse extends AbstractResponse
     }
 
     /**
+     * Returns the list of send results for each Viber message.
      * @return ViberBulkSendItem[]
      */
     public function messages(): array

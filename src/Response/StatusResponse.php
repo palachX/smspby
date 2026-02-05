@@ -10,6 +10,9 @@ use Vetheslav\SmspBy\ValueObject\MessageChannel;
 
 final class StatusResponse extends AbstractResponse
 {
+    /**
+     * Creates a status response wrapper.
+     */
     public function __construct(
         bool $success,
         ?ApiError $error,
@@ -19,16 +22,25 @@ final class StatusResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a status response from an API payload using SMS status mapping by default.
+     */
     public static function fromArray(array $data): self
     {
         return self::fromSmsArray($data);
     }
 
+    /**
+     * Builds a status response interpreting status codes as SMS statuses.
+     */
     public static function fromSmsArray(array $data): self
     {
         return self::fromArrayForChannel($data, MessageChannel::Sms);
     }
 
+    /**
+     * Builds a status response interpreting status codes as Viber statuses.
+     */
     public static function fromViberArray(array $data): self
     {
         return self::fromArrayForChannel($data, MessageChannel::Viber);
@@ -51,6 +63,9 @@ final class StatusResponse extends AbstractResponse
         return new self($success, $error, $data, $messageStatus);
     }
 
+    /**
+     * Returns the parsed delivery status information.
+     */
     public function messageStatus(): MessageStatus
     {
         return $this->messageStatus;

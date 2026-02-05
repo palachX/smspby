@@ -16,10 +16,16 @@ use Vetheslav\SmspBy\ValueObject\SmsMessage;
 
 final class SmsApi
 {
+    /**
+     * Creates an SMS API wrapper using the shared request sender.
+     */
     public function __construct(private readonly RequestSender $sender)
     {
     }
 
+    /**
+     * Sends a single SMS message and returns the delivery metadata.
+     */
     public function send(SmsMessage $message): SmsSendResponse
     {
         $data = $this->sender->post('send/sms', $message->toSendArray());
@@ -28,6 +34,7 @@ final class SmsApi
     }
 
     /**
+     * Sends up to 500 SMS messages in one request.
      * @param SmsMessage[] $messages
      */
     public function sendBulk(array $messages): SmsBulkSendResponse
@@ -47,6 +54,9 @@ final class SmsApi
         return SmsBulkSendResponse::fromArray($data);
     }
 
+    /**
+     * Calculates the cost of a single SMS without sending it.
+     */
     public function cost(SmsCostMessage $message): SmsCostResponse
     {
         $data = $this->sender->post('cost/sms', $message->toArray());
@@ -55,6 +65,7 @@ final class SmsApi
     }
 
     /**
+     * Calculates costs for up to 500 SMS messages without sending them.
      * @param SmsCostMessage[] $messages
      */
     public function costBulk(array $messages): SmsBulkCostResponse
@@ -74,6 +85,9 @@ final class SmsApi
         return SmsBulkCostResponse::fromArray($data);
     }
 
+    /**
+     * Retrieves SMS delivery status by platform message ID.
+     */
     public function statusById(int|string $messageId): StatusResponse
     {
         $data = $this->sender->post('status/sms', [
@@ -84,6 +98,7 @@ final class SmsApi
     }
 
     /**
+     * Retrieves SMS delivery statuses for up to 500 platform message IDs.
      * @param array<int, int|string> $messageIds
      */
     public function statusBulkById(array $messageIds): StatusBulkResponse
@@ -95,6 +110,9 @@ final class SmsApi
         return StatusBulkResponse::fromSmsArray($data);
     }
 
+    /**
+     * Retrieves SMS delivery status by custom_id.
+     */
     public function statusByCustomId(string $customId): StatusResponse
     {
         $this->assertCustomId($customId);
@@ -107,6 +125,7 @@ final class SmsApi
     }
 
     /**
+     * Retrieves SMS delivery statuses for up to 500 custom_id values.
      * @param string[] $customIds
      */
     public function statusBulkByCustomId(array $customIds): StatusBulkResponse

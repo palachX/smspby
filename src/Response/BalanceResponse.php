@@ -8,6 +8,9 @@ use Vetheslav\SmspBy\Model\ApiError;
 
 final class BalanceResponse extends AbstractResponse
 {
+    /**
+     * Creates a balance response wrapper.
+     */
     public function __construct(
         bool $success,
         ?ApiError $error,
@@ -18,6 +21,9 @@ final class BalanceResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a balance response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -32,11 +38,17 @@ final class BalanceResponse extends AbstractResponse
         );
     }
 
+    /**
+     * Returns the SMS balance for the account.
+     */
     public function smsBalance(): ?float
     {
         return $this->smsBalance;
     }
 
+    /**
+     * Returns the Viber balance for the account.
+     */
     public function viberBalance(): ?float
     {
         return $this->viberBalance;

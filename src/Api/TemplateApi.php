@@ -11,10 +11,16 @@ use Vetheslav\SmspBy\Response\TemplateListResponse;
 
 final class TemplateApi
 {
+    /**
+     * Creates a templates API wrapper using the shared request sender.
+     */
     public function __construct(private readonly RequestSender $sender)
     {
     }
 
+    /**
+     * Creates an SMS template with the provided name and text.
+     */
     public function createSms(string $name, string $text): TemplateCreateResponse
     {
         $this->assertNonEmpty($name, 'name');
@@ -28,6 +34,9 @@ final class TemplateApi
         return TemplateCreateResponse::fromArray($data);
     }
 
+    /**
+     * Updates an SMS template name and/or text.
+     */
     public function updateSms(int $templateId, ?string $name = null, ?string $text = null): SimpleResponse
     {
         $this->assertUpdateFields($name, $text);
@@ -45,6 +54,9 @@ final class TemplateApi
         return SimpleResponse::fromArray($data);
     }
 
+    /**
+     * Deletes an SMS template by template ID.
+     */
     public function deleteSms(int $templateId): SimpleResponse
     {
         $data = $this->sender->post('templateDelete/sms', [
@@ -54,6 +66,9 @@ final class TemplateApi
         return SimpleResponse::fromArray($data);
     }
 
+    /**
+     * Returns the list of SMS templates for the account.
+     */
     public function listSms(): TemplateListResponse
     {
         $data = $this->sender->post('templateList/sms', []);
@@ -61,6 +76,9 @@ final class TemplateApi
         return TemplateListResponse::fromArray($data);
     }
 
+    /**
+     * Creates a Viber template with the provided name and text.
+     */
     public function createViber(string $name, string $text): TemplateCreateResponse
     {
         $this->assertNonEmpty($name, 'name');
@@ -74,6 +92,9 @@ final class TemplateApi
         return TemplateCreateResponse::fromArray($data);
     }
 
+    /**
+     * Updates a Viber template name and/or text.
+     */
     public function updateViber(int $templateId, ?string $name = null, ?string $text = null): SimpleResponse
     {
         $this->assertUpdateFields($name, $text);
@@ -91,6 +112,9 @@ final class TemplateApi
         return SimpleResponse::fromArray($data);
     }
 
+    /**
+     * Deletes a Viber template by template ID.
+     */
     public function deleteViber(int $templateId): SimpleResponse
     {
         $data = $this->sender->post('templateDelete/viber', [
@@ -100,6 +124,9 @@ final class TemplateApi
         return SimpleResponse::fromArray($data);
     }
 
+    /**
+     * Returns the list of Viber templates for the account.
+     */
     public function listViber(): TemplateListResponse
     {
         $data = $this->sender->post('templateList/viber', []);

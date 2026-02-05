@@ -12,6 +12,7 @@ use Vetheslav\SmspBy\ValueObject\ViberTemplate;
 final class SenderNamesResponse extends AbstractResponse
 {
     /**
+     * Creates a sender names response wrapper.
      * @param SmsSenderName[] $sms
      * @param ViberSenderName[] $viber
      */
@@ -25,6 +26,9 @@ final class SenderNamesResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a sender names response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -69,6 +73,7 @@ final class SenderNamesResponse extends AbstractResponse
     }
 
     /**
+     * Returns the list of approved SMS sender names.
      * @return SmsSenderName[]
      */
     public function sms(): array
@@ -77,6 +82,7 @@ final class SenderNamesResponse extends AbstractResponse
     }
 
     /**
+     * Returns the list of approved Viber sender names and templates.
      * @return ViberSenderName[]
      */
     public function viber(): array
@@ -85,6 +91,7 @@ final class SenderNamesResponse extends AbstractResponse
     }
 
     /**
+     * Returns unique SMS sender names as strings.
      * @return string[]
      */
     public function smsNames(): array

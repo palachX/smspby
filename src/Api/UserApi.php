@@ -10,10 +10,16 @@ use Vetheslav\SmspBy\Response\SenderNamesResponse;
 
 final class UserApi
 {
+    /**
+     * Creates a user API wrapper using the shared request sender.
+     */
     public function __construct(private readonly RequestSender $sender)
     {
     }
 
+    /**
+     * Fetches SMS and Viber balances for the authenticated account.
+     */
     public function balances(): BalanceResponse
     {
         $data = $this->sender->get('balances', []);
@@ -21,6 +27,9 @@ final class UserApi
         return BalanceResponse::fromArray($data);
     }
 
+    /**
+     * Fetches approved sender names for SMS and Viber channels.
+     */
     public function senderNames(): SenderNamesResponse
     {
         $data = $this->sender->get('senderNames', []);

@@ -10,6 +10,7 @@ use Vetheslav\SmspBy\ValueObject\SmsCostItem;
 final class SmsBulkCostResponse extends AbstractResponse
 {
     /**
+     * Creates a bulk SMS cost response wrapper.
      * @param SmsCostItem[] $messages
      */
     public function __construct(
@@ -21,6 +22,9 @@ final class SmsBulkCostResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a bulk SMS cost response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -43,6 +47,7 @@ final class SmsBulkCostResponse extends AbstractResponse
     }
 
     /**
+     * Returns the list of cost calculation items for each SMS.
      * @return SmsCostItem[]
      */
     public function messages(): array

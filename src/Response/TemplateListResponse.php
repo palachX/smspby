@@ -10,6 +10,7 @@ use Vetheslav\SmspBy\ValueObject\Template;
 final class TemplateListResponse extends AbstractResponse
 {
     /**
+     * Creates a template list response wrapper.
      * @param Template[] $templates
      */
     public function __construct(
@@ -21,6 +22,9 @@ final class TemplateListResponse extends AbstractResponse
         parent::__construct($success, $error, $raw);
     }
 
+    /**
+     * Builds a template list response from the API payload.
+     */
     public static function fromArray(array $data): self
     {
         $success = ($data['status'] ?? true) !== false;
@@ -43,6 +47,7 @@ final class TemplateListResponse extends AbstractResponse
     }
 
     /**
+     * Returns the list of templates.
      * @return Template[]
      */
     public function templates(): array
