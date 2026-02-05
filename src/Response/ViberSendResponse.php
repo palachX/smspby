@@ -1,0 +1,51 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Vetheslav\SmspBy\Response;
+
+use Vetheslav\SmspBy\Model\ApiError;
+
+final class ViberSendResponse extends AbstractResponse
+{
+    public function __construct(
+        bool $success,
+        ?ApiError $error,
+        array $raw,
+        private readonly ?int $messageId,
+        private readonly ?float $price,
+        private readonly ?string $customId,
+    ) {
+        parent::__construct($success, $error, $raw);
+    }
+
+    public static function fromArray(array $data): self
+    {
+        $success = ($data['status'] ?? true) !== false;
+        $error = $success ? null : ApiError::fromMixed($data['error'] ?? null);
+
+        return new self(
+            $success,
+            $error,
+            $data,
+            isset($data['message_id']) ? (int) $data['message_id'] : null,
+            isset($data['price']) ? (float) $data['price'] : null,
+            isset($data['custom_id']) ? (string) $data['custom_id'] : null,
+        );
+    }
+
+    public function messageId(): ?int
+    {
+        return $this->messageId;
+    }
+
+    public function price(): ?float
+    {
+        return $this->price;
+    }
+
+    public function customId(): ?string
+    {
+        return $this->customId;
+    }
+}
