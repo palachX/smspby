@@ -38,4 +38,20 @@ final class MessageStatusTest extends TestCase
         $status = $response->messageStatus();
         $this->assertSame(ViberMessageStatus::Read, $status->code());
     }
+
+    public function testStatusNotFoundIsPreserved(): void
+    {
+        $response = StatusResponse::fromSmsArray([
+            'status' => true,
+            'message_status' => [
+                'code' => false,
+                'name' => 'Not found',
+            ],
+        ]);
+
+        $status = $response->messageStatus();
+        $this->assertNull($status->code());
+        $this->assertTrue($status->isNotFound());
+        $this->assertSame(false, $status->gatewayStatus()->rawCode());
+    }
 }

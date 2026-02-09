@@ -75,6 +75,8 @@ Common API error codes are available as constants in `Vetheslav\\SmspBy\\ValueOb
 
 SMS statuses are available as a backed enum in `Vetheslav\\SmspBy\\ValueObject\\SmsMessageStatus`.
 Viber statuses are available as a backed enum in `Vetheslav\\SmspBy\\ValueObject\\ViberMessageStatus`.
+Bulk status responses may include `code=false` (message not found in gateway). This case is preserved via
+`MessageStatus::isNotFound()` and the raw gateway code in `MessageStatus::gatewayStatus()->rawCode()`.
 
 ## License
 

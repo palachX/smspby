@@ -10,8 +10,8 @@ final class MessageStatus
      * Creates a delivery status wrapper for SMS/Viber.
      */
     public function __construct(
-        private readonly SmsMessageStatus|ViberMessageStatus|null $code,
-        private readonly ?string $name,
+        private readonly MessageChannel $channel,
+        private readonly GatewayStatus $gatewayStatus,
     ) {
     }
 
@@ -20,7 +20,10 @@ final class MessageStatus
      */
     public function code(): SmsMessageStatus|ViberMessageStatus|null
     {
-        return $this->code;
+        return match ($this->channel) {
+            MessageChannel::Sms => $this->gatewayStatus->mapToSmsMessageStatus(),
+            MessageChannel::Viber => $this->gatewayStatus->mapToViberMessageStatus(),
+        };
     }
 
     /**
@@ -28,7 +31,23 @@ final class MessageStatus
      */
     public function name(): ?string
     {
-        return $this->name;
+        return $this->gatewayStatus->name();
+    }
+
+    /**
+     * Returns the raw gateway status payload wrapper.
+     */
+    public function gatewayStatus(): GatewayStatus
+    {
+        return $this->gatewayStatus;
+    }
+
+    /**
+     * Returns true when the gateway reports the message was not found (code=false).
+     */
+    public function isNotFound(): bool
+    {
+        return $this->gatewayStatus->isNotFound();
     }
 
     /**
@@ -36,7 +55,7 @@ final class MessageStatus
      */
     public static function fromSmsCode(int|false|null $code, ?string $name): self
     {
-        return new self(self::smsStatusFromCode($code), $name);
+        return new self(MessageChannel::Sms, new GatewayStatus($code, $name));
     }
 
     /**
@@ -44,24 +63,6 @@ final class MessageStatus
      */
     public static function fromViberCode(int|false|null $code, ?string $name): self
     {
-        return new self(self::viberStatusFromCode($code), $name);
-    }
-
-    private static function smsStatusFromCode(int|false|null $code): ?SmsMessageStatus
-    {
-        if ($code === null || $code === false) {
-            return null;
-        }
-
-        return SmsMessageStatus::tryFrom((int) $code);
-    }
-
-    private static function viberStatusFromCode(int|false|null $code): ?ViberMessageStatus
-    {
-        if ($code === null || $code === false) {
-            return null;
-        }
-
-        return ViberMessageStatus::tryFrom((int) $code);
+        return new self(MessageChannel::Viber, new GatewayStatus($code, $name));
     }
 }
